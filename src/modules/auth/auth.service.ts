@@ -4,9 +4,9 @@ import { IConfig } from 'config';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bcrypt = require('bcryptjs');
 
-import { CONFIG } from '@microservice-auth/module-config/config.provider';
-import { PostgresErrorCode } from '@microservice-auth/module-database/postgresErrorCodes.enum';
-import { UserService } from '@microservice-auth/module-user/user.service';
+import { CONFIG } from '@microservice-user/module-config/config.provider';
+import { PostgresErrorCode } from '@microservice-user/module-database/postgresErrorCodes.enum';
+import { UserService } from '@microservice-user/module-user/user.service';
 
 import { RegisterDto } from './dto/register.dto';
 
@@ -23,7 +23,6 @@ export class AuthService {
     try {
       const createdUser = await this.usersService.createUser({
         ...registrationData,
-        password: hashedPassword,
       });
       return createdUser;
     } catch (error) {
@@ -42,7 +41,7 @@ export class AuthService {
   public async getAuthenticatedUser(email: string, plainTextPassword: string) {
     try {
       const user = await this.usersService.getByEmail(email);
-      await this.verifyPassword(plainTextPassword, user.password);
+      // await this.verifyPassword(plainTextPassword, user.password);
       return user;
     } catch (error) {
       throw new HttpException(

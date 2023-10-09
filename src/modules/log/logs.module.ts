@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ConfigModule } from '@microservice-auth/module-config/config.module';
-import { Log } from '@microservice-auth/entities';
+import { ConfigModule } from '@microservice-user/module-config/config.module';
+import { Log } from '@microservice-user/entities';
 
 import LogsService from './logs.service';
 import CustomLogger from './customLogger';

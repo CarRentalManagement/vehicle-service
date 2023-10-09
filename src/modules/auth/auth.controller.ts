@@ -15,8 +15,8 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { IConfig } from 'config';
 
 // Service
-import { UserService } from '@microservice-auth/module-user/user.service';
-import { CONFIG } from '@microservice-auth/module-config/config.provider';
+import { UserService } from '@microservice-user/module-user/user.service';
+import { CONFIG } from '@microservice-user/module-config/config.provider';
 import { AuthService } from './auth.service';
 
 // Dto
@@ -28,7 +28,7 @@ import { JwtAuthGuard } from './guard/jwtAuth.guard';
 import { JwtRefreshGuard } from './guard/jwtRefresh.guard';
 
 // Entity
-import { User } from '@microservice-auth/entities';
+import { User } from '@microservice-user/entities';
 
 @Controller()
 @ApiTags('Auth')
@@ -82,11 +82,6 @@ export class AuthController {
       email: user.email,
     });
 
-    await this.usersService.setCurrentRefreshToken(
-      refreshTokenData.token,
-      user.id,
-    );
-
     request.res.setHeader('Set-Cookie', [
       accessTokenData.cookie,
       refreshTokenData.cookie,
@@ -113,7 +108,6 @@ export class AuthController {
   })
   async logOut(@Req() request, @Res() response: Response) {
     const { user } = request;
-    await this.usersService.removeRefreshToken(user.id);
 
     request.res.setHeader('Set-Cookie', this.authService.getCookiesForLogOut());
     response.sendStatus(200);

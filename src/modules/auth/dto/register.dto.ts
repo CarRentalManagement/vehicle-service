@@ -6,28 +6,21 @@ import {
   MinLength,
   IsArray,
   IsEnum,
+  IsOptional,
 } from 'class-validator';
-import { Roles } from '@microservice-auth/entities';
 
 export class RegisterDto {
   @IsEmail()
-  @ApiProperty()
   email: string;
 
   @IsString()
   @IsNotEmpty()
-  @ApiProperty()
   name: string;
 
   @IsString()
   @IsNotEmpty()
   @MinLength(6)
-  @ApiProperty()
   password: string;
-
-  @IsArray()
-  @IsEnum(Roles, { each: true })
-  roles: string[];
 }
 
 export default RegisterDto;

@@ -18,10 +18,10 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@microservice-auth/module-*": ["src/modules/*"],
-      "@microservice-auth/config-*": ["src/configs/*"],
-      "@microservice-auth/entities": ["src/entities"],
-      "@microservice-auth/utils/*": ["src/utils/*"]
+      "@microservice-user/module-*": ["src/modules/*"],
+      "@microservice-user/config-*": ["src/configs/*"],
+      "@microservice-user/entities": ["src/entities"],
+      "@microservice-user/utils/*": ["src/utils/*"]
     }
   }
 }

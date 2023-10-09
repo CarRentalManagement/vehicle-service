@@ -10,13 +10,14 @@ import {
 } from '@nestjs/common';
 import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from '@microservice-auth/module-auth/guard';
+import { JwtAuthGuard } from '@microservice-user/module-auth/guard';
 
-import { User } from '@microservice-auth/entities';
+import { User } from '@microservice-user/entities';
 
 import UpdateUserDto from './dto/updateUser.dto';
 
 import { UserService } from './user.service';
+import { GrpcMethod } from '@nestjs/microservices';
 
 @Controller('user')
 @ApiTags('User')

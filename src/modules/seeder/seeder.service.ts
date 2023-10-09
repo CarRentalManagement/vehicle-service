@@ -6,15 +6,12 @@ import { faker } from '@faker-js/faker';
 const bcrypt = require('bcryptjs');
 
 // Entity
-import { User, Role } from '@microservice-auth/entities';
+import { User } from '@microservice-user/entities';
 
 @Injectable()
 export class SeederService {
   constructor(
     private readonly logger: Logger,
-
-    @InjectRepository(Role)
-    private roleRepo: Repository<Role>,
 
     @InjectRepository(User)
     private userRepo: Repository<User>,
@@ -26,39 +23,11 @@ export class SeederService {
 
   async seedUsers() {
     try {
-      // Delete all role
-      await this.roleRepo.delete({});
       // Detele all user
       await this.userRepo.delete({});
 
-      // Create new role
-      const role1 = new Role();
-      role1.name = 'admin';
-      const role2 = new Role();
-      role2.name = 'member';
-      const role3 = new Role();
-      role3.name = 'systemadmin';
-      const roles = await Promise.all([
-        this.roleRepo.save(role1),
-        this.roleRepo.save(role2),
-        this.roleRepo.save(role3),
-      ]);
-      this.logger.debug('Successfuly completed seeding roles...');
-
       // Create new user
       const users = [];
-      const hashedPassword = await bcrypt.hash('123456', 10);
-      roles.forEach((role) => {
-        const user = new User();
-
-        user.name = faker.name.fullName();
-        user.email = faker.internet.email();
-        user.roles = [role];
-        user.password = hashedPassword;
-
-        users.push(this.userRepo.save(user));
-      });
-
       await Promise.all(users);
 
       this.logger.debug('Successfuly completed seeding users...');

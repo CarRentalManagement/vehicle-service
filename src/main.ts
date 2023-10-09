@@ -8,13 +8,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import { IConfig } from 'config';
 
-import CustomLogger from '@microservice-auth/module-log/customLogger';
+import CustomLogger from '@microservice-user/module-log/customLogger';
 
-import getLogLevels from '@microservice-auth/utils/getLogLevels';
+import getLogLevels from '@microservice-user/utils/getLogLevels';
 
-import { HttpExceptionsFilter } from '@microservice-auth/config-exceptions';
-import { TransformInterceptor } from '@microservice-auth/config-interceptors';
-import { CONFIG } from '@microservice-auth/module-config/config.provider';
+import { HttpExceptionsFilter } from '@microservice-user/config-exceptions';
+import { TransformInterceptor } from '@microservice-user/config-interceptors';
+import { CONFIG } from '@microservice-user/module-config/config.provider';
 
 import { AppModule } from './app.module';
 
@@ -26,17 +26,29 @@ async function bootstrap() {
   });
   const configService = app.get<IConfig>(CONFIG);
 
-  const microservice = app.connectMicroservice<MicroserviceOptions>(
+  // const microservice = app.connectMicroservice<MicroserviceOptions>(
+  //   {
+  //     transport: Transport.KAFKA,
+  //     options: {
+  //       client: {
+  //         clientId: configService.get<string>('kafka.kafka_client_id'),
+  //         brokers: configService.get<string>('kafka.kafka_brokers').split(','),
+  //       },
+  //       consumer: {
+  //         groupId: configService.get<string>('kafka.consumer_id'),
+  //       },
+  //     },
+  //   },
+  //   { inheritAppConfig: true },
+  // );
+
+  const gRPCMicroservice = app.connectMicroservice<MicroserviceOptions>(
     {
-      transport: Transport.KAFKA,
+      transport: Transport.GRPC,
       options: {
-        client: {
-          clientId: configService.get<string>('kafka.kafka_client_id'),
-          brokers: configService.get<string>('kafka.kafka_brokers').split(','),
-        },
-        consumer: {
-          groupId: configService.get<string>('kafka.consumer_id'),
-        },
+        package: 'user',
+        protoPath: 'dist/proto/consumer.proto',
+        url: configService.get<string>('server.grpc_hostname'),
       },
     },
     { inheritAppConfig: true },
@@ -51,7 +63,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  microservice.useGlobalPipes(new ValidationPipe());
+  // microservice.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));

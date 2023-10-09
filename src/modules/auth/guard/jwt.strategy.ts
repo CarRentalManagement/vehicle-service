@@ -4,8 +4,8 @@ import { IConfig } from 'config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable } from '@nestjs/common';
 
-import { UserService } from '@microservice-auth/module-user/user.service';
-import { CONFIG } from '@microservice-auth/module-config/config.provider';
+import { UserService } from '@microservice-user/module-user/user.service';
+import { CONFIG } from '@microservice-user/module-config/config.provider';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

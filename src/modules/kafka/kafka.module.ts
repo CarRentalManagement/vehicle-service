@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { KafkaService } from './kafka.service';
-import { ConfigModule } from '@microservice-auth/module-config/config.module';
+import { ConfigModule } from '@microservice-user/module-config/config.module';
 
 @Module({
   imports: [ConfigModule],

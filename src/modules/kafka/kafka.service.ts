@@ -9,8 +9,8 @@ import { IConfig } from 'config';
 import { ClientKafka } from '@nestjs/microservices';
 import { Observable, lastValueFrom } from 'rxjs';
 
-import { HttpExceptionsFilter } from '@microservice-auth/config-exceptions';
-import { CONFIG } from '@microservice-auth/module-config/config.provider';
+import { HttpExceptionsFilter } from '@microservice-user/config-exceptions';
+import { CONFIG } from '@microservice-user/module-config/config.provider';
 
 import { KAFKA_TOPIC_PRODUCER } from './dto/types';
 

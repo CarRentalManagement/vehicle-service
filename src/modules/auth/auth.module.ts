@@ -3,10 +3,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { IConfig } from 'config';
 
-import { CONFIG } from '@microservice-auth/module-config/config.provider';
+import { CONFIG } from '@microservice-user/module-config/config.provider';
 
-import { ConfigModule } from '@microservice-auth/module-config/config.module';
-import { UserModule } from '@microservice-auth/module-user/user.module';
+import { ConfigModule } from '@microservice-user/module-config/config.module';
+import { UserModule } from '@microservice-user/module-user/user.module';
 
 import { AuthController } from './auth.controller';
 
