@@ -17,7 +17,6 @@ import { User } from '@microservice-user/entities';
 import UpdateUserDto from './dto/updateUser.dto';
 
 import { UserService } from './user.service';
-import { GrpcMethod } from '@nestjs/microservices';
 
 @Controller('user')
 @ApiTags('User')

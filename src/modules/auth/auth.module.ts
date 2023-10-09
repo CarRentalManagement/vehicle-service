@@ -8,11 +8,6 @@ import { CONFIG } from '@microservice-user/module-config/config.provider';
 import { ConfigModule } from '@microservice-user/module-config/config.module';
 import { UserModule } from '@microservice-user/module-user/user.module';
 
-import { AuthController } from './auth.controller';
-
-import { AuthService } from './auth.service';
-
-import { LocalStrategy } from './guard/local.strategy';
 import { JwtStrategy } from './guard/jwt.strategy';
 
 @Module({
@@ -31,7 +26,7 @@ import { JwtStrategy } from './guard/jwt.strategy';
       }),
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
-  controllers: [AuthController],
+  providers: [JwtStrategy],
+  controllers: [],
 })
 export class AuthModule {}

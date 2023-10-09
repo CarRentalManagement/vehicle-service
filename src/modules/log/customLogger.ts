@@ -28,7 +28,7 @@ class CustomLogger extends ConsoleLogger {
   }
 
   log(message: string, context?: string) {
-    super.log.apply(this, [message, context]);
+    super.log.apply(this, [message, `${this.context}.${context}`]);
 
     this.logsService.createLog({
       message,
