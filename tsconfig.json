@@ -18,10 +18,10 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@microservice-user/module-*": ["src/modules/*"],
-      "@microservice-user/config-*": ["src/configs/*"],
-      "@microservice-user/entities": ["src/entities"],
-      "@microservice-user/utils/*": ["src/utils/*"]
+      "@microservice-vehicle/module-*": ["src/modules/*"],
+      "@microservice-vehicle/config-*": ["src/configs/*"],
+      "@microservice-vehicle/entities": ["src/entities"],
+      "@microservice-vehicle/utils/*": ["src/utils/*"]
     }
   }
 }

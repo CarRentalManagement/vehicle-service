@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { KafkaService } from './kafka.service';
 import { ConfigModule } from '@microservice-vehicle/module-config/config.module';
+import { GrpcProvider } from './gRPC.provider';
 
 @Module({
   imports: [ConfigModule],
-  providers: [KafkaService],
-  exports: [KafkaService],
+  providers: [GrpcProvider],
+  exports: [GrpcProvider],
 })
-export class KafkaModule {}
+export class GrpcModule {}

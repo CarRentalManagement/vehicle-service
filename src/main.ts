@@ -8,13 +8,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import { IConfig } from 'config';
 
-import CustomLogger from '@microservice-user/module-log/customLogger';
+import CustomLogger from '@microservice-vehicle/module-log/customLogger';
 
-import getLogLevels from '@microservice-user/utils/getLogLevels';
+import getLogLevels from '@microservice-vehicle/utils/getLogLevels';
 
-import { HttpExceptionsFilter } from '@microservice-user/config-exceptions';
-import { TransformInterceptor } from '@microservice-user/config-interceptors';
-import { CONFIG } from '@microservice-user/module-config/config.provider';
+import { AllExceptionsFilter } from '@microservice-vehicle/config-exceptions';
+import { TransformInterceptor } from '@microservice-vehicle/config-interceptors';
+import { CONFIG } from '@microservice-vehicle/module-config/config.provider';
 
 import { AppModule } from './app.module';
 
@@ -25,6 +25,7 @@ async function bootstrap() {
     bufferLogs: true,
   });
   const configService = app.get<IConfig>(CONFIG);
+  const loggerService = app.get(CustomLogger);
 
   // const microservice = app.connectMicroservice<MicroserviceOptions>(
   //   {
@@ -42,21 +43,21 @@ async function bootstrap() {
   //   { inheritAppConfig: true },
   // );
 
-  const gRPCMicroservice = app.connectMicroservice<MicroserviceOptions>(
-    {
-      transport: Transport.GRPC,
-      options: {
-        package: 'user',
-        protoPath: 'dist/proto/consumer.proto',
-        url: configService.get<string>('server.grpc_hostname'),
-      },
-    },
-    { inheritAppConfig: true },
-  );
+  // const gRPCMicroservice = app.connectMicroservice<MicroserviceOptions>(
+  //   {
+  //     transport: Transport.GRPC,
+  //     options: {
+  //       package: 'user',
+  //       protoPath: 'dist/proto/consumer.proto',
+  //       url: configService.get<string>('server.grpc_hostname'),
+  //     },
+  //   },
+  //   { inheritAppConfig: true },
+  // );
 
   app.setGlobalPrefix(configService.get<string>('server.base_url'));
 
-  app.useLogger(app.get(CustomLogger));
+  app.useLogger(loggerService);
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -72,7 +73,7 @@ async function bootstrap() {
   // Catch exception
   const httpAdapter = app.get(HttpAdapterHost);
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new HttpExceptionsFilter(httpAdapter));
+  app.useGlobalFilters(new AllExceptionsFilter(loggerService, httpAdapter));
 
   // Swagger
   const swaggerConfig = new DocumentBuilder()

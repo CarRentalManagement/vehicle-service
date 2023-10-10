@@ -1,5 +1,0 @@
-syntax = "proto3";
-
-import './consumers/user.proto';
-
-  

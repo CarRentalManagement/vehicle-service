@@ -1,17 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
-
-import { User } from '@microservice-user/entities';
-import { UserGrpcController } from './user.grpc.controller';
-import { LoggerModule } from '@microservice-user/module-log/logs.module';
+import { GrpcModule } from '@microservice-vehicle/module-gRPC/gRPC.module';
+import { UserGrpcService } from './user.grpc.service';
 
 @Module({
-  imports: [LoggerModule, TypeOrmModule.forFeature([User])],
-  providers: [UserService],
-  controllers: [UserController, UserGrpcController],
-  exports: [UserService],
+  imports: [GrpcModule, TypeOrmModule.forFeature([])],
+  providers: [UserGrpcService],
+  exports: [UserGrpcService],
 })
 export class UserModule {}

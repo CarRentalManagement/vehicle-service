@@ -2,8 +2,8 @@ import { Injectable, ConsoleLogger, Inject } from '@nestjs/common';
 import { ConsoleLoggerOptions } from '@nestjs/common/services/console-logger.service';
 import { IConfig } from 'config';
 
-import getLogLevels from '@microservice-user/utils/getLogLevels';
-import { CONFIG } from '@microservice-user/module-config/config.provider';
+import getLogLevels from '@microservice-vehicle/utils/getLogLevels';
+import { CONFIG } from '@microservice-vehicle/module-config/config.provider';
 
 import LogsService from './logs.service';
 
@@ -37,7 +37,7 @@ class CustomLogger extends ConsoleLogger {
     });
   }
   error(message: string, stack?: string, context?: string) {
-    super.error.apply(this, [message, stack, context]);
+    super.error.apply(this, [message, stack, `${this.context}.${context}`]);
     this.logsService.createLog({
       message,
       context,
@@ -45,7 +45,7 @@ class CustomLogger extends ConsoleLogger {
     });
   }
   warn(message: string, context?: string) {
-    super.warn.apply(this, [message, context]);
+    super.warn.apply(this, [message, `${this.context}.${context}`]);
 
     this.logsService.createLog({
       message,
@@ -54,7 +54,7 @@ class CustomLogger extends ConsoleLogger {
     });
   }
   debug(message: string, context?: string) {
-    super.debug.apply(this, [message, context]);
+    super.debug.apply(this, [message, `${this.context}.${context}`]);
 
     this.logsService.createLog({
       message,
@@ -63,7 +63,7 @@ class CustomLogger extends ConsoleLogger {
     });
   }
   verbose(message: string, context?: string) {
-    super.debug.apply(this, [message, context]);
+    super.debug.apply(this, [message, `${this.context}.${context}`]);
 
     this.logsService.createLog({
       message,

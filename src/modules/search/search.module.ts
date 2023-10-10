@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
 import { IConfig } from 'config';
 
-import { CONFIG } from '@microservice-user/module-config/config.provider';
-import { ConfigModule } from '@microservice-user/module-config/config.module';
+import { CONFIG } from '@microservice-vehicle/module-config/config.provider';
+import { ConfigModule } from '@microservice-vehicle/module-config/config.module';
 
 @Module({
   imports: [

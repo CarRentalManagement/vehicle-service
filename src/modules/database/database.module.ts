@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { IConfig } from 'config';
 
-import { ConfigModule } from '@microservice-user/module-config/config.module';
-import { CONFIG } from '@microservice-user/module-config/config.provider';
+import { ConfigModule } from '@microservice-vehicle/module-config/config.module';
+import { CONFIG } from '@microservice-vehicle/module-config/config.provider';
 
 @Module({
   imports: [

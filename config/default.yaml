@@ -1,4 +1,4 @@
 env: local
 
 server:
-  base_url: /api/user
+  base_url: /api/vehicle
