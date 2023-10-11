@@ -22,7 +22,7 @@ import { CONFIG } from '@microservice-vehicle/module-config/config.provider';
         entities: ['dist/**/*.entity.js'],
         synchronize:
           configService.get<string>('env') === 'production' ? false : true,
-        log:
+        logging:
           configService.get<string>('env') === 'production'
             ? ['warn', 'error']
             : true,

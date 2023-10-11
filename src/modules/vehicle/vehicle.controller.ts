@@ -40,6 +40,7 @@ export class VehicleController {
   @Get()
   @UseGuards(AuthGuard)
   getVehicles(@Query() query: GetVehiclesDto) {
+    console.log(query);
     return this.vehicleService.getVehicles(query);
   }
 

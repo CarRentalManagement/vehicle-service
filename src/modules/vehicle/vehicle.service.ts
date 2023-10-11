@@ -11,9 +11,10 @@ import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { UserGrpcService } from '@microservice-vehicle/module-user/user.grpc.service';
 import CustomLogger from '@microservice-vehicle/module-log/customLogger';
 import { GetVehiclesDto } from './dto/get-vehicle.dto';
+import { PaginationService } from '@microservice-vehicle/module-common/pagination/pagination.service';
 
 @Injectable()
-export class VehicleService {
+export class VehicleService extends PaginationService {
   constructor(
     private readonly vehicleTypeService: VehicleTypeService,
     private readonly automakerService: AutomakerService,
@@ -23,6 +24,8 @@ export class VehicleService {
     @InjectRepository(Vehicle)
     private vehicleRepository: Repository<Vehicle>,
   ) {
+    super();
+
     logger.setContext(VehicleService.name);
   }
 
@@ -60,15 +63,33 @@ export class VehicleService {
 
     const vehicleQuery = this.vehicleRepository.createQueryBuilder('vehicle');
 
+    if (name) {
+      vehicleQuery.andWhere(`vehicle.name ILIKE  '%'||:name||'%'`, {
+        name,
+      });
+    }
+
+    if (color) {
+      vehicleQuery.andWhere(`vehicle.color ILIKE  '%'||:color||'%'`, {
+        color,
+      });
+    }
+
     if (automakerIds?.length > 0) {
-      vehicleQuery.andWhere('vehicle.automakerId IN (:...automakerIds', {
+      vehicleQuery.andWhere('vehicle.automakerId IN (:...automakerIds)', {
         automakerIds,
       });
     }
 
-    const vehicles = await vehicleQuery.getMany();
+    if (typeIds?.length > 0) {
+      vehicleQuery.andWhere('vehicle.typeId IN (:...typeIds)', {
+        typeIds,
+      });
+    }
 
-    return vehicles;
+    const results = await this.paginate(vehicleQuery, query);
+
+    return results;
   }
 
   getOne(id: number) {
