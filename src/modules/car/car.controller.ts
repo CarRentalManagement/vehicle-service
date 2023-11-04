@@ -10,22 +10,22 @@ import {
   Req,
   Query,
 } from '@nestjs/common';
-import { VehicleService } from './vehicle.service';
+import { CarService } from './car.service';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { AuthGuard } from '@microservice-vehicle/module-auth/guard';
 import { GetVehiclesDto } from './dto/get-vehicle.dto';
 
-@Controller()
-export class VehicleController {
-  constructor(private readonly vehicleService: VehicleService) {}
+@Controller('/car')
+export class CarController {
+  constructor(private readonly carService: CarService) {}
 
   @Post()
   @UseGuards(AuthGuard)
   create(@Req() req, @Body() createVehicleDto: CreateVehicleDto) {
     const user = req.user;
 
-    return this.vehicleService.create({
+    return this.carService.create({
       ...createVehicleDto,
       userEmail: user?.email,
     });
@@ -34,25 +34,25 @@ export class VehicleController {
   @Get(':id')
   @UseGuards(AuthGuard)
   getOne(@Param('id') id: number) {
-    return this.vehicleService.getOne(id);
+    return this.carService.getOne(id);
   }
 
   @Get()
   @UseGuards(AuthGuard)
   getVehicles(@Query() query: GetVehiclesDto) {
     console.log(query);
-    return this.vehicleService.getVehicles(query);
+    return this.carService.getVehicles(query);
   }
 
   @Patch(':id')
   @UseGuards(AuthGuard)
   update(@Param('id') id: number, @Body() updateVehicleDto: UpdateVehicleDto) {
-    return this.vehicleService.update(id, updateVehicleDto);
+    return this.carService.update(id, updateVehicleDto);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard)
   remove(@Param('id') id: string) {
-    return this.vehicleService.remove(+id);
+    return this.carService.remove(+id);
   }
 }

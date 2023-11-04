@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
-import { Vehicle } from '@microservice-vehicle/entities';
-import { VehicleTypeService } from '@microservice-vehicle/module-vehicle-type/vehicleType.service';
+import { Car } from '@microservice-vehicle/entities';
+import { CarTypeService } from '@microservice-vehicle/module-car-type/carType.service';
 import { AutomakerService } from '@microservice-vehicle/module-automaker/automaker.service';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -11,22 +11,21 @@ import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { UserGrpcService } from '@microservice-vehicle/module-user/user.grpc.service';
 import CustomLogger from '@microservice-vehicle/module-log/customLogger';
 import { GetVehiclesDto } from './dto/get-vehicle.dto';
-import { PaginationService } from '@microservice-vehicle/module-common/pagination/pagination.service';
+import { BaseService } from '@microservice-vehicle/module-base/base.service';
 
 @Injectable()
-export class VehicleService extends PaginationService {
+export class CarService extends BaseService {
   constructor(
-    private readonly vehicleTypeService: VehicleTypeService,
+    private readonly vehicleTypeService: CarTypeService,
     private readonly automakerService: AutomakerService,
     private readonly userGrpcService: UserGrpcService,
     private readonly logger: CustomLogger,
 
-    @InjectRepository(Vehicle)
-    private vehicleRepository: Repository<Vehicle>,
+    @InjectRepository(Car)
+    private vehicleRepository: Repository<Car>,
   ) {
     super();
-
-    logger.setContext(VehicleService.name);
+    logger.setContext(CarService.name);
   }
 
   async create(createVehicleDto: CreateVehicleDto) {
@@ -45,7 +44,7 @@ export class VehicleService extends PaginationService {
       };
     }
 
-    const newVehicle = new Vehicle();
+    const newVehicle = new Car();
 
     this.vehicleRepository.merge(newVehicle, {
       ...createVehicleDto,
@@ -87,7 +86,7 @@ export class VehicleService extends PaginationService {
       });
     }
 
-    const results = await this.paginate(vehicleQuery, query);
+    const results = await this.pagination.paginate(vehicleQuery, query);
 
     return results;
   }

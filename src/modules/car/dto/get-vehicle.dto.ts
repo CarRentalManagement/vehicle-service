@@ -1,4 +1,4 @@
-import { PaginationDto } from '@microservice-vehicle/module-common/pagination/dto/pagination.dto';
+import { PaginationDto } from '@vunam2000/common-libs';
 import { Type } from 'class-transformer';
 import { IsString, IsOptional, IsArray } from 'class-validator';
 

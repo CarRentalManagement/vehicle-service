@@ -1,17 +1,10 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { BaseEntity } from './base.entity';
-import { VehicleType } from './vehicleType.entity';
+import { BaseEntity, VEHICLE_STATUS } from './base.entity';
+import { CarType } from './carType.entity';
 import { Automaker } from './automaker.entity';
 
-export enum VEHICLE_STATUS {
-  INACTIVE = 0,
-  AVAILABLE = 1,
-  RENTED = 2,
-  RESERVED = 3,
-}
-
-@Entity('vehicles')
-export class Vehicle extends BaseEntity {
+@Entity('cars')
+export class Car extends BaseEntity {
   @Column()
   public ownerId: number;
 
@@ -43,9 +36,9 @@ export class Vehicle extends BaseEntity {
   @Column({ default: 0 })
   public deposit: number; // 0-100%
 
-  @ManyToOne(() => VehicleType, (type: VehicleType) => type.vehicles)
-  public type: VehicleType;
+  @ManyToOne(() => CarType, (type: CarType) => type.cars)
+  public type: CarType;
 
-  @ManyToOne(() => Automaker, (automaker: Automaker) => automaker.vehicles)
+  @ManyToOne(() => Automaker, (automaker: Automaker) => automaker.cars)
   public automaker: Automaker;
 }

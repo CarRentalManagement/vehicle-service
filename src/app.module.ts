@@ -5,8 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from '@microservice-vehicle/module-database/database.module';
 import { LoggerModule } from '@microservice-vehicle/module-log/logs.module';
 import { AuthModule } from '@microservice-vehicle/module-auth/auth.module';
-import { VehicleModule } from '@microservice-vehicle/module-vehicle/vehicle.module';
-import { VehicleTypeModule } from '@microservice-vehicle/module-vehicle-type/vehicleType.module';
+import { CarModule } from '@microservice-vehicle/module-car/car.module';
+import { CarTypeModule } from '@microservice-vehicle/module-car-type/carType.module';
 import { AutomakerModule } from '@microservice-vehicle/module-automaker/automaker.module';
 
 import { LoggerMiddleware } from '@microservice-vehicle/config-middlewares';
@@ -33,8 +33,8 @@ import { AppService } from './app.service';
     ConfigModule,
     DatabaseModule,
     AuthModule,
-    VehicleModule,
-    VehicleTypeModule,
+    CarModule,
+    CarTypeModule,
     AutomakerModule,
   ],
 })
